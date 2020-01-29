@@ -11,7 +11,7 @@
 		
 		 <p:menubar>
 	        <f:facet name="options">
-	            <p:commandButton type="button" value="Novo" icon="fa fa-rss fa-1"/>
+	            <p:commandButton type="button" value="Novo"  onclick="PF('dlg').show();" icon="fa fa-rss fa-1"/>
 	        </f:facet>
 	    </p:menubar>
 		<p:spacer/>
@@ -41,6 +41,31 @@
 		    </p:dataTable>
 			
 		</h:form>
-	</ui:define>
 	
+		<p:dialog header="New Rss" widgetVar="dlg" modal="true">
+	    	
+	    	<p:panelGrid columns="2" styleClass="panelgrid-noborder">
+			     
+			    <h:outputText value="Name:" />
+			    <p:inputText required="true"/>
+			     
+			    <h:outputText value="Category:" />
+			    <p:inputText required="true"/>
+			     
+			    <h:outputText value="Status:" />
+			    <p:selectOneMenu id="selectOne" required="true" style="width:170px">
+			        <f:selectItem itemLabel="Select One" itemValue="" />
+			        <f:selectItem itemLabel="True" itemValue="true" />
+			        <f:selectItem itemLabel="False" itemValue="false" />
+			    </p:selectOneMenu>
+			    
+			    <h:outputText value="" />
+			    <p:commandButton value="Save" type="button"/>
+			     
+			</p:panelGrid>
+	    	
+		</p:dialog> 
+	
+	</ui:define>
+		
 </ui:composition>

@@ -18,6 +18,8 @@ public class RssBean implements Serializable{
 	
 	private List<Rss> rssList = new ArrayList<>();
 
+	private Rss rss;
+	
 	public RssBean() {
 			rssList.addAll(Arrays.asList(
 					new Rss(1L, "UOL", "Geral", true),
@@ -29,5 +31,9 @@ public class RssBean implements Serializable{
 	
 	public List<Rss> getRssList() {
 		return rssList;
+	}
+	
+	public void newEntity() {
+		rss = new Rss();
 	}
 }

@@ -26,3 +26,8 @@ body {
 		border: none;
 	}
 }
+
+.panelgrid-noborder.ui-panelgrid>*>tr,
+.panelgrid-noborder.ui-panelgrid>*>tr>td {
+    border: none;
+}
