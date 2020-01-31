@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+
+import org.springframework.web.bind.annotation.InitBinder;
 
 import com.demo.prime.domain.Rss;
 
@@ -18,7 +21,13 @@ public class RssBean implements Serializable{
 	
 	private List<Rss> rssList = new ArrayList<>();
 
-	private Rss rss;
+	private Rss entity;
+	private Rss entityEdit;
+	
+	@PostConstruct
+	public void init() {
+		entity = new Rss();
+	}
 	
 	public RssBean() {
 			rssList.addAll(Arrays.asList(
@@ -29,11 +38,28 @@ public class RssBean implements Serializable{
 					new Rss(1L, "G1", "Esporte", true)));
 	}
 	
+	public void save(Rss entity) {
+		System.out.println("Save : " + entity.getName());
+	}
+	
 	public List<Rss> getRssList() {
 		return rssList;
 	}
 	
 	public void newEntity() {
-		rss = new Rss();
+		entity = new Rss();
 	}
+
+	public Rss getEntityEdit() {
+		return entityEdit;
+	}
+
+	public void setEntityEdit(Rss entityEdit) {
+		this.entityEdit = entityEdit;
+	}
+
+	public Rss getEntity() {
+		return entity;
+	}
+	
 }
