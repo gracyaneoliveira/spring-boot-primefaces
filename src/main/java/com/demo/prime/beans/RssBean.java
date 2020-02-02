@@ -6,10 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-
-import org.springframework.web.bind.annotation.InitBinder;
 
 import com.demo.prime.domain.Rss;
 
@@ -27,6 +27,7 @@ public class RssBean implements Serializable{
 	@PostConstruct
 	public void init() {
 		entity = new Rss();
+		entityEdit = new Rss();
 	}
 	
 	public RssBean() {
@@ -38,8 +39,21 @@ public class RssBean implements Serializable{
 					new Rss(1L, "G1", "Esporte", true)));
 	}
 	
-	public void save(Rss entity) {
-		System.out.println("Save : " + entity.getName());
+	public void save() {
+		System.out.println("Save : " + entityEdit.getName());
+		
+		if (!rssList.contains(entityEdit)) {
+			rssList.add(entityEdit);
+		}
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Rss salvo com sucesso!"));
+		
+		newEntity();
+	}
+	
+	public void clear() {
+		newEntity();
+		System.out.println("clear()");
 	}
 	
 	public List<Rss> getRssList() {
@@ -47,6 +61,7 @@ public class RssBean implements Serializable{
 	}
 	
 	public void newEntity() {
+		entityEdit = new Rss();
 		entity = new Rss();
 	}
 
@@ -60,6 +75,10 @@ public class RssBean implements Serializable{
 
 	public Rss getEntity() {
 		return entity;
+	}
+
+	public void setEntity(Rss entity) {
+		this.entity = entity;
 	}
 	
 }

@@ -8,17 +8,30 @@
 	<ui:define name="content">
 		<h1 class="aw-page-title">LG Rss</h1>
 		
-       <p:menubar>
-	        <f:facet name="options">
-	            <p:commandButton type="button" value="Novo"  onclick="PF('dialogFormWv').show();" icon="fa fa-rss fa-1"/>
-	        </f:facet>
-	    </p:menubar>
+		<p:messages id="msg" autoUpdate="false" closable="true" globalOnly="true"/>
 		
-		<p:spacer/>
+		<h:form id="frmMenu">
+	       <p:menubar>
+		        <f:facet name="options">
+		            <p:commandButton value="Novo"
+		            action="#{rssBean.clear}"
+		            process="@this"
+		            update="dialogFormId msg frmNewRss"
+		            oncomplete="PF('dialogFormWv').show();" 
+		            icon="fa fa-rss fa-1">
+		            	<p:ajax update="dialogFormId" resetValues="true" />
+		            </p:commandButton>
+		        </f:facet>
+		    </p:menubar>
+			
+			<p:spacer/>
+		</h:form>
+		
 		
 		<h:form id="frm">
-			
-			<p:dataTable var="varDataTable" value="#{rssBean.rssList}" rows="5"
+		
+			<p:dataTable id="dataTableRss"
+				 var="varDataTable" value="#{rssBean.rssList}" rows="5"
                  paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  rowsPerPageTemplate="5,10,15">
@@ -44,11 +57,11 @@
 		            				icon="fa fa-fw fa-edit"
 		            				action="#{rssBean.setEntityEdit(varDataTable)}"
 		            				oncomplete="PF('dialogFormWv').show()"
-		            				update="dialogFormId" 
-		            				process="@this"/>
+		            				update="dialogFormId msg frmNewRss" 
+		            				process="@this">
+		            					<p:ajax update="dialogFormId" resetValues="true" />
+		            				</p:commandButton>
 		        </p:column>
-		        
-		        
 		        
 		    </p:dataTable>
 			
@@ -61,8 +74,11 @@
 				resizable="false"
 				draggable="false"
 				modal="true">
-	    	
+				
 	    	<h:form id="frmNewRss">
+
+	    		<p:messages id="msgDialog" autoUpdate="false" closable="true"/>
+	    	
 		    	<p:panelGrid columns="2" styleClass="panelgrid-noborder">
 				     
 				    <h:outputText value="Name:" />
@@ -82,8 +98,11 @@
 				    </p:selectOneMenu>
 				    
 				    <h:outputText value="" />
-				    <p:commandButton value="Save" action="#{rssBean.save(rssBean.entityEdit)}" process="frmNewRss"/>
-				     
+				    <p:commandButton value="Save" 
+				    				action="#{rssBean.save}" 
+				    				process="frmNewRss"
+				    				oncomplete="if(!args.validationFailed)PF('dialogFormWv').hide()" 
+				    				update="frm:dataTableRss msgDialog msg"/>
 				</p:panelGrid>
 			</h:form>
 	    	
